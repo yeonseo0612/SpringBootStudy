@@ -1,0 +1,31 @@
+package com.korea.user.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.korea.user.service.UserService;
+
+@RestController
+@RequestMapping("/user")
+public class UserController {
+	
+	@Autowired
+	UserService userService;
+	
+	@GetMapping("/add")
+	public String createUser(@Param("name") String name, @Param("email") String email) {
+		
+		int result = userService.addUser(name, email);
+		
+		if(result == 1) {
+			return "유저 추가 성공";
+		}else {
+			return "유저 추가 실패";
+		}
+		
+	}
+
+}

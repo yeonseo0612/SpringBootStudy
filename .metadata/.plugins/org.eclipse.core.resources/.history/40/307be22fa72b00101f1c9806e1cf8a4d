@@ -1,0 +1,41 @@
+package com.korea.user.controller;
+
+import java.lang.ProcessBuilder.Redirect;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.korea.user.service.UserService;
+
+@RestController
+@RequestMapping("/")
+public class UserController {
+	
+	
+	
+	@Autowired
+	UserService userService;
+	
+	@GetMapping("/user")
+	public String joinPage() {
+		
+	    return "user.html";
+	}
+	
+	@GetMapping("/addUser")
+	public String createUser(@Param("name") String name, @Param("email") String email) {
+		
+		int result = userService.addUser(name, email);
+		
+		if(result == 1) {
+			return "유저 추가 성공";
+		}else {
+			return "유저 추가 실패";
+		}
+		
+	}
+
+}

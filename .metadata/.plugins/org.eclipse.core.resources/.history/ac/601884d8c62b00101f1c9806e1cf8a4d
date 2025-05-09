@@ -1,0 +1,76 @@
+package com.korea.product.service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.korea.product.model.ProductDTO;
+import com.korea.product.model.ProductEntity;
+import com.korea.product.persistance.ProductRepository;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class ProductService {
+
+	
+	private final ProductRepository productRepository;
+	
+	//추가
+	public int createPro(ProductDTO product) {
+		
+		ProductEntity proentity = new ProductEntity();
+		
+		proentity.setName(product.getName());
+		proentity.setDescription(product.getDescription());
+		proentity.setPrice(product.getPrice());
+		
+		try {
+			productRepository.save(proentity);
+			
+			return 1;
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			return -1;
+		}
+		
+	}
+
+	public List<ProductDTO> findAllPro() {
+
+		List<ProductEntity> proList = productRepository.findAll();
+		
+		List<ProductDTO> proDTOlist = new ArrayList<>();
+		
+		for(ProductEntity prolist : proList) {
+			ProductDTO dto = new ProductDTO();
+			
+			dto.setDescription(prolist.getDescription());
+			dto.setName(prolist.getName());
+			dto.setPrice(prolist.getPrice());
+			
+			proDTOlist.add(dto);
+		}
+
+		return proDTOlist ;
+	}
+	
+ /**
+  * 	public List<ProductDTO> addProduct(ProductDTO dto){
+  * 			ProductEntity entity = ProductDTO.toEntity(dto)
+  *				jpa로 데이터베이스에 CRUD할 때 반드시 entity로만 해야한다.
+  *				repository.save(entity);
+  *				return repository.findAll().stream().map(ProductDTO::new.collect(Collectors.toList()));
+  * \}
+  * 
+  * 
+  * 
+  * 
+  * */
+
+
+}

@@ -1,0 +1,14 @@
+package com.korea.user.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.korea.user.model.UserDTO;
+import com.korea.user.persistance.UserRepository;
+
+@Service
+public class UserService {
+	
+	
+
+}

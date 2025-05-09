@@ -1,0 +1,25 @@
+package com.korea.user.model;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Data // 멤버변수의 getter와 setter 메서드 구현
+public class UserDTO {
+	
+	private int id;
+	
+	private String name;
+	
+	private String email;
+	
+	public UserDTO(UserEntity entity) {
+		this.id = entity.getId();
+		this.name = entity.getName();
+		this.email = entity.getEmail();
+	}
+}

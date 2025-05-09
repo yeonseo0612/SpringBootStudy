@@ -1,0 +1,55 @@
+package com.korea.user.service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Service;
+
+import com.korea.user.model.UserDTO;
+import com.korea.user.model.UserEntity;
+import com.korea.user.persistance.UserRepository;
+
+
+
+@Service
+public class UserService {
+	
+	@Autowired
+	private UserRepository userRepository;
+	
+	
+	public int createUser(String name, String email ) {
+		
+		 UserEntity userEntity = new UserEntity();
+		    userEntity.setName(name);
+		    userEntity.setEmail(email);
+		    try {
+		        // UserEntity를 DB에 저장
+		        userRepository.save(userEntity);
+		        return 1;
+		    } catch (Exception e) {
+		        // 예외가 발생하면 실패 메시지 반환
+		        return -1;
+		    }
+		}
+
+
+	public List<UserDTO> findlist() {
+		
+		UserDTO user = new UserDTO();
+		UserEntity userEntity = new UserEntity();
+		
+		user.setName(userEntity.getName());
+		user.setEmail(userEntity.getEmail());
+		
+		 List<UserDTO> userList = new ArrayList<>();
+		 userList.add(user);
+
+		 return userList;
+	}
+	
+	
+
+}

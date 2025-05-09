@@ -1,0 +1,95 @@
+package com.korea.product.service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.korea.product.model.ProductDTO;
+import com.korea.product.model.ProductEntity;
+import com.korea.product.persistance.ProductRepository;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class ProductService {
+
+	
+	private final ProductRepository productRepository;
+	
+	//추가
+	public int createPro(ProductDTO product) {
+		
+		ProductEntity proentity = new ProductEntity();
+		
+		proentity.setName(product.getName());
+		proentity.setDescription(product.getDescription());
+		proentity.setPrice(product.getPrice());
+		
+		try {
+			productRepository.save(proentity);
+			
+			return 1;
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			return -1;
+		}
+		
+	}
+	
+	 /**
+	  * 	public List<ProductDTO> addProduct(ProductDTO dto){
+	  * 			ProductEntity entity = ProductDTO.toEntity(dto)
+	  *				jpa로 데이터베이스에 CRUD할 때 반드시 entity로만 해야한다.
+	  *				repository.save(entity);
+	  *				return repository.findAll().stream().map(ProductDTO::new.collect(Collectors.toList()));
+	  * }
+	  * 
+	  **/
+
+	public List<ProductDTO> getfindAllPro(Double minPrice) {
+
+		  // 모든 상품을 가져온다
+	    List<ProductEntity> proList = productRepository.findAll();
+	    
+	    // 상품 리스트를 담을 DTO 리스트 생성
+	    List<ProductDTO> proDTOlist = new ArrayList<>();
+	    
+	    // 리스트를 순회하며, 가격이 minPrice 이상인 상품만 DTO로 변환 후 추가
+	    for (ProductEntity prolist : proList) {
+	        if (minPrice == null || prolist.getPrice() >= minPrice) {
+	            ProductDTO dto = new ProductDTO();
+	            dto.setId(prolist.getId());
+	            dto.setDescription(prolist.getDescription());
+	            dto.setName(prolist.getName());
+	            dto.setPrice(prolist.getPrice());
+	            proDTOlist.add(dto);
+	        }
+	    }
+		return proDTOlist;
+		
+	
+
+
+
+}
+
+	public int updatePro(Long id, ProductDTO product) {
+		
+		ProductEntity proEntity = productRepository.getById(id);
+		
+	
+		proEntity.setName(product.getName());
+		proEntity.setDescription(product.getDescription());
+		proEntity.setPrice(product.getPrice());
+		
+		
+		return 1;
+		
+		
+	}
+}

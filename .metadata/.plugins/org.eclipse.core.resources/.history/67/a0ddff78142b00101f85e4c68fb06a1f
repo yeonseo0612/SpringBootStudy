@@ -1,0 +1,38 @@
+package com.korea.user.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Service;
+
+import com.korea.user.model.UserDTO;
+import com.korea.user.persistance.UserRepository;
+
+
+
+@Service
+public class UserService {
+	
+	@Autowired
+	private UserRepository userRepository;
+	
+	
+	public String addUser(@Param("name") String name, @Param("email") String email ) {
+		
+		  UserDTO userDTO = new UserDTO();
+		  
+	        userDTO.setName(name);
+	        userDTO.setEmail(email);
+
+	        try {
+	            // 데이터베이스에 저장
+	            userRepository.save(userDTO); // JPA를 통해 저장
+	            return "User added successfully";
+	        } catch (Exception e) {
+	            // 예외가 발생하면 실패 메시지 반환
+	            return "Error occurred while adding user: " + e.getMessage();
+	        }
+	    }
+	
+	
+
+}

@@ -1,0 +1,53 @@
+package com.example.todo.security;
+
+import java.io.IOException;
+
+import org.springframework.util.StringUtils;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
+
+//OncePerRequestFilter
+//한 요청당 한 번만 실행되는 필터
+//doFilterInternal()메서드를 가지고 있다.
+
+@Slf4j
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
+	
+	@Override
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+			throws ServletException, IOException {
+		
+		try {
+			//parseBarerToken메서드
+			//HTTP 요청 헤더에서 Authorization값을 가져와 Barer 토큰 형식인지
+			//확인한 후, 토큰을 가져온다. 토큰이 없거나 유효하지 않으면 null을 반환
+			String token = parseBarerToken(request);
+			log.info("Filter is running...");
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		// TODO Auto-generated method stub
+		
+	}
+	
+	//HttpServletRequest : 요청 정보를 받아올 수 있는 인터페이스
+	//getMethod() : 요청메서드 확인 가능(GET, POST, PUT, DELETE)
+	//getRequestURI() : 도메인 이후의 요청 경로를 반환
+	//getProtocol() : 사용된 프로토콜과 버전을 반환
+	private String parseBarerToken(HttpServletRequest request) {
+		//요청 정보에서 헤더를 파싱해 Barer토큰을 반환한다.
+		//Barer : 토큰을 소지하고 있는 사람이 곧 인증된 사용자다 라는 뜻
+		String barerToken = request.getHeader("Authorization");
+		
+		//Barer토큰 형식일 경우 토큰값만 반환
+		if(StringUtils.hasText(barerToken) && barerToken.startsWith("Barer ")) {
+			return barerToken.substring(7);
+		}
+		return barerToken;
+	}
+}

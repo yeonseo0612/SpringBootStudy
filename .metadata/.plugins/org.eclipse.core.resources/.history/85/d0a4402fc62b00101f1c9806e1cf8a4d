@@ -1,0 +1,44 @@
+package com.korea.product.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.korea.product.model.ProductDTO;
+import com.korea.product.service.ProductService;
+
+import lombok.RequiredArgsConstructor;
+
+@RestController
+@RequestMapping("/api/products")
+@RequiredArgsConstructor
+public class ProductController {
+	
+
+	private final ProductService productService;
+	
+	@PostMapping("/addPro")
+	public ResponseEntity<String> createProduct(@RequestBody ProductDTO product) {
+	    
+		try {
+			int result = productService.createPro(product);
+			
+			if(result == 1) {
+				 return ResponseEntity.ok("저장 완료"); //post맨에 응답
+			}else {
+				 return ResponseEntity.ok("저장 실패"); //post맨에 응답
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.getMessage();
+		}
+		return null;
+		
+	}
+
+}

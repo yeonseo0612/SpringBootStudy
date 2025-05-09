@@ -1,0 +1,39 @@
+package com.korea.product.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.korea.product.model.ProductDTO;
+import com.korea.product.service.ProductService;
+
+@RestController
+@RequestMapping("/")
+public class ProductController {
+	
+	@Autowired
+	ProductService productService;
+	
+	@PostMapping("/addPro")
+	public void createProduct(@RequestBody ProductDTO product) {
+	    
+		try {
+			int result = productService.createPro(product);
+			
+			if(result == 1) {
+				System.out.println("추가성공");
+			}else {
+				System.out.println("추가실패");
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.getMessage();
+		}
+		
+	}
+
+}

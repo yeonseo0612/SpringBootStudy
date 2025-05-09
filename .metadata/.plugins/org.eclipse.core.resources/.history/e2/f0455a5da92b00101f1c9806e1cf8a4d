@@ -1,0 +1,50 @@
+package com.korea.user.controller;
+
+import java.lang.ProcessBuilder.Redirect;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.korea.user.service.UserService;
+
+@Controller
+@RequestMapping("/")
+public class UserController {
+	
+	
+	
+	@Autowired
+	UserService userService;
+	
+	@GetMapping("/user")
+	public String joinPage() {
+		
+	    return "user.html";
+	}
+	
+	@PostMapping("/addUser")
+	public String addUser(@RequestParam(name = "name") String name, @RequestParam(name = "email") String email) {
+	    // 코드...
+		
+		System.out.println(name);
+		System.out.println(email);
+		
+		int result = userService.addUser(name, email);
+		
+		if(result == 1) {
+			System.out.println("추가성공");
+			  return "redirect:/user";
+		}else {
+			System.out.println("추가실패");
+			  return "redirect:/user";
+		}
+		
+	}
+
+}

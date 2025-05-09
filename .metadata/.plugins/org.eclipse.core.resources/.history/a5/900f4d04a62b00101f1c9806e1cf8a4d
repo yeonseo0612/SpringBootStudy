@@ -1,0 +1,15 @@
+package com.korea.user.persistance;
+
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import com.korea.user.model.UserDTO;
+import com.korea.user.model.UserEntity;
+
+public interface UserRepository extends JpaRepository<UserDTO, Long> {
+    Optional<UserDTO> findByEmail(String email);
+    // 또는 User findByEmail(String email);
+}

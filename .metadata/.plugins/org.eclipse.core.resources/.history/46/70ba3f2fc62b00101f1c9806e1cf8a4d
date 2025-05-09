@@ -1,0 +1,40 @@
+package com.korea.product.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.korea.product.model.ProductDTO;
+import com.korea.product.model.ProductEntity;
+import com.korea.product.persistance.ProductRepository;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class ProductService {
+
+	
+	private final ProductRepository productRepository;
+	
+	public int createPro(ProductDTO product) {
+		
+		ProductEntity proentity = new ProductEntity();
+		
+		proentity.setName(product.getName());
+		proentity.setDescription(product.getDescription());
+		proentity.setPrice(product.getPrice());
+		
+		try {
+			productRepository.save(proentity);
+			
+			return 1;
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			return -1;
+		}
+		
+	}
+
+
+}
