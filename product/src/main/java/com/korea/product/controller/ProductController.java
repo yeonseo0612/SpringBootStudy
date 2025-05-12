@@ -66,7 +66,9 @@ public class ProductController {
 	
 	
 	//모든 상품의 조회
-	
+	//클라이언트가 최소금액을 전달할 수도 있다.
+	//localhsot:10000/api/products?minPrice=5000
+	//localhsot:10000/api/products?5000
 	@GetMapping("/viewPro")
 	public ResponseEntity<List<ProductDTO>> viewPro(@RequestParam Double minPrice) {
         try {
