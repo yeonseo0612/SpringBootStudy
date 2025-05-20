@@ -40,7 +40,7 @@ public class UserController {
 			//UserDTO기반으로 UserEntity객체 생성하기
 			UserEntity entity = UserEntity.builder()
 									.username(dto.getUsername())
-									.password(dto.getPassword())
+									.password(passwordEncoder.encode(dto.getPassword()))
 									.build();
 				
 			//UserEntity객체를 service로 보내서 데이터베이스에 추가하기
